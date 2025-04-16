@@ -1,0 +1,40 @@
+# Import necessary libraries
+import pandas as pd
+import numpy as np
+
+# Load the dataset
+df = pd.read_csv('Amazonbookreviews.csv')
+df.head()
+
+# Create subsets
+df1 = df[['reviewerID', 'overallRating', 'reviewerText']].loc[0:15]
+df2 = df[['reviewerID', 'overallRating', 'reviewerText']].loc[16:30]
+df3 = df[['reviewerID', 'overallRating', 'reviewerText']].loc[31:50]
+
+# Merging data
+merging = pd.concat([df1, df2, df3])
+print(merging)
+
+# Sort values - sorting by overallRating in descending order
+sort_values = df.sort_values('overallRating', ascending=False)
+print(sort_values)
+
+# Transpose data
+transposing = df.transpose()
+print(transposing)
+
+# Shape of the dataframe
+shaping = df.shape
+print(shaping)
+
+# Create pivot table - showing average rating by reviewer (where reviewerID is not NA)
+pivot_table = pd.pivot_table(df[df['reviewerID'].notna()], 
+                            index=['reviewerID'], 
+                            values='overallRating', 
+                            aggfunc='mean')
+print(pivot_table)
+
+# Reshape example
+reshaping_arr = np.array([1, 2, 3, 4, 5, 6])
+reshaped = reshaping_arr.reshape(3, 2)
+print(reshaped)
