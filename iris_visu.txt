@@ -1,0 +1,49 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Load the data
+df = pd.read_csv('iris.csv')
+
+# Set the style
+sns.set_style("whitegrid")
+plt.figure(figsize=(15, 10))
+
+## 1. Simple 1D Plot (Histogram)
+plt.subplot(2, 2, 1)
+sns.histplot(data=df, x='sepal_length', hue='species', kde=True)
+plt.title("1D: Sepal Length Distribution")
+plt.xlabel("Sepal Length (cm)")
+
+## 2. Simple 2D Plot (Scatter Plot)
+plt.subplot(2, 2, 2)
+sns.scatterplot(data=df, x='sepal_length', y='petal_length', hue='species')
+plt.title("2D: Sepal vs Petal Length")
+plt.xlabel("Sepal Length (cm)")
+plt.ylabel("Petal Length (cm)")
+
+## 3. Simple 3D Plot (3D Scatter)
+# Need separate figure for 3D plot
+fig = plt.figure(figsize=(8, 6))
+ax = fig.add_subplot(111, projection='3d')
+colors = {'setosa':'red', 'versicolor':'green', 'virginica':'blue'}
+for species in df['species'].unique():
+    subset = df[df['species'] == species]
+    ax.scatter(subset['sepal_length'], subset['sepal_width'], subset['petal_length'], 
+               label=species, c=colors[species])
+ax.set_title("3D: Sepal & Petal Measurements")
+ax.set_xlabel("Sepal Length")
+ax.set_ylabel("Sepal Width")
+ax.set_zlabel("Petal Length")
+ax.legend()
+
+## 4. Simple Temporal Plot (Line Plot - simulated data)
+plt.subplot(2, 2, 4)
+df['day'] = range(len(df))  # Create simple sequential days
+sns.lineplot(data=df, x='day', y='sepal_length', hue='species')
+plt.title("Simulated Temporal Trend")
+plt.xlabel("Day Number")
+plt.ylabel("Sepal Length (cm)")
+
+plt.tight_layout()
+plt.show()
