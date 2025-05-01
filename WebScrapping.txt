@@ -1,0 +1,23 @@
+import requests
+from bs4 import BeautifulSoup
+
+url = "http://books.toscrape.com/"
+headers = {'User-Agent': 'Mozilla/5.0'}
+soup = BeautifulSoup(requests.get(url, headers=headers).content, 'html.parser')
+
+for b in soup.select('article.product_pod'):
+    t = b.h3.a['title']
+    pu = "http://books.toscrape.com/catalogue/" + b.h3.a['href']
+    r = b.select_one('p.star-rating')['class'][1]
+    iu = "http://books.toscrape.com/" + b.select_one('div.image_container img')['src'].replace('../', '')
+    print(f'Title: {t}\nURL: {pu}\nRating: {r}\nImage URL: {iu}\n{"_ "*20}')
+
+def get_book_details(url):
+    s = BeautifulSoup(requests.get(url).text, 'html.parser')
+    d = s.select_one('#product_description')
+    desc = d.find_next_sibling('p').text.strip() if d else "N/A"
+    table_data = {r.th.text.strip(): r.td.text.strip() for r in s.select('table.table.table-striped tr')}
+    return {"Description": desc, "Reviews": table_data.get("Number of reviews", "N/A")}
+
+details = get_book_details('https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html')
+print(details)
