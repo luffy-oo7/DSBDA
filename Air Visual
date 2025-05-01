@@ -1,0 +1,35 @@
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+import numpy as np
+
+df= pd.read_excel('/content/AirQualityUCI.xlsx')
+
+df.info()
+
+df = df[df['CO(GT)'] != -200]
+df['Hour'] = pd.to_datetime(df['Time'], format='%H:%M:%S').dt.hour
+sns.boxplot(x=df['Hour'], y=df['CO(GT)'])
+plt.title('Boxplot - CO emission at given time')
+plt.show()
+
+df = df[df['NOx(GT)'] != -200]
+sns.histplot(data=df, x='NOx(GT)')
+plt.title('Histogram - Lifetime Post Total Reach')
+plt.xlabel('Lifetime Post Total Reach')
+plt.ylabel('Frequency')
+plt.show()
+
+
+sns.lineplot(data=df, x='CO(GT)', y='NOx(GT)')
+plt.title("Monthly Number of Likes")
+plt.show()
+
+df['Month'] = pd.to_datetime(df['Date']).dt.month
+df = df[df['NO2(GT)']!= -200]
+sns.lineplot(data=df, x='Hour', y='NO2(GT)', hue='Month')
+plt.title("Monthly Number of Likes by Category")
+plt.xlabel("Post Month")
+plt.ylabel("Likes")
+plt.legend(title='Category')
+plt.show()
