@@ -27,12 +27,6 @@ print(transposing)
 shaping = df.shape
 print(shaping)
 
-# Create pivot table - showing average rating by reviewer (where reviewerID is not NA)
-pivot_table = pd.pivot_table(df[df['reviewerID'].notna()], 
-                            index=['reviewerID'], 
-                            values='overallRating', 
-                            aggfunc='mean')
-print(pivot_table)
 
 # Reshape example
 reshaping_arr = np.array([1, 2, 3, 4, 5, 6])
