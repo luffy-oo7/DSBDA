@@ -1,0 +1,27 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+df = pd.read_csv('/content/dataset_Facebook.csv', sep=";")
+df.head()
+
+sns.boxplot(x=df['Category'], y=df['Lifetime Post Total Reach'])
+plt.title('Boxplot - Lifetime Post Total Reach by Category')
+
+sns.histplot(data=df, x='Lifetime Post Total Reach',bins=30)
+plt.title('Histogram - Lifetime Post Total Reach')
+plt.xlabel('Lifetime Post Total Reach')
+plt.ylabel('Frequency')
+plt.show()
+
+sns.lineplot(data=df, x='Post Month', y='like')
+plt.title("Monthly Number of Likes")
+plt.show()
+
+sns.lineplot(data=df, x='Post Month', y='like', hue='Category')
+plt.title("Monthly Number of Likes by Category")
+plt.xlabel("Post Month")
+plt.ylabel("Likes")
+plt.legend(title='Category')
+plt.show()
